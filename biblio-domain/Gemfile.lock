@@ -1,0 +1,26 @@
+PATH
+  remote: .
+  specs:
+    biblio-domain (0.1.0)
+      dry-equalizer
+      dry-initializer
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    dry-equalizer (0.3.0)
+    dry-initializer (3.0.3)
+    minitest (5.14.2)
+    rake (12.3.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  biblio-domain!
+  dry-initializer
+  minitest (~> 5.0)
+  rake (~> 12.0)
+
+BUNDLED WITH
+   2.1.2
