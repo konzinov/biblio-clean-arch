@@ -1,4 +1,5 @@
 ul
-  - @livres.each do |livre|
+  - @view_model.livres.each do |livre|
     - puts livre.auteur
     li = livre.titre
+h3 = @view_model.nombre_livres

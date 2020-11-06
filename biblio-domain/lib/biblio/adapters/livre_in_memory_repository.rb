@@ -21,6 +21,10 @@ module Biblio::Adapters
     def find_by_title(titre)
       @@livres.select { |_, livre| livre.titre == titre }.values.first
     end
+
+    def clear!
+      @@livres.clear
+    end
   
   end
 end

@@ -3,7 +3,7 @@ module Biblio::ResponseModels
   class Response
     extend Dry::Initializer
     
-    option :errors, default: proc { {}}
+    option :errors, default: proc { {} }
     
     def success?
       errors.empty?

@@ -1,12 +1,7 @@
 module Biblio
   module Presenters
     class Presenter
-      extend Dry::Initializer
-      
-      param :format
-      param :response_model
-      
-      def present
+      def present(response_model)
       end
     end
   end

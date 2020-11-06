@@ -1,12 +1,15 @@
 module Biblio
   module ViewModels
-    class AfficherLivresViewModel < ViewModel
+    class EnregistrerLivreViewModel < ViewModel
       extend Dry::Initializer
-      param :resume_nb_livres
-      param :livres, default: proc { [] }
-      
+      param :message
+      option :livre
+      option :erreurs
+
       class Livre
         extend Dry::Initializer
+        include Dry::Equalizer(:titre)
+
         option :titre
         option :auteur
         option :nb_pages, default: proc { 0 }

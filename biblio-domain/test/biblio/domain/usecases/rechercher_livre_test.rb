@@ -6,6 +6,7 @@ module Biblio
       class RechercherLivreTest < Minitest::Test
         def setup
           @repo = Biblio::Adapters::LivreInMemoryRepository.new
+          @repo.clear!
           @repo.save(Biblio::Domain::Entities::Livre.new('Le vieux nègre et la médaille', 'Bernard Dadié', nil, nil))
           @usecase = Biblio::Domain::UseCases::RechercherLivre.new(@repo)
         end
