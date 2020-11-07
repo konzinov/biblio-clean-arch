@@ -7,7 +7,7 @@ module Biblio
         def execute(enregistrer_live_request, presenter)
           errors = validate_demande enregistrer_live_request
           response = if errors.any?
-                      response_model.build(errors: errors) if errors.any?
+                      response_model.build(errors: errors)
                     else
                       livre = Entities::Livre.new(enregistrer_live_request.titre,
                                                   enregistrer_live_request.auteur,
