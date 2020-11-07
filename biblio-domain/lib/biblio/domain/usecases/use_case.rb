@@ -3,8 +3,8 @@ module Biblio
     module UseCases
       class UseCase
         extend Dry::Initializer
-        
-        def execute(request_model)
+
+        def execute(request_model, presenter=nil)
         end
       end
     end

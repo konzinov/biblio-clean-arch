@@ -19,7 +19,7 @@ module Biblio::Adapters
     end
     
     def find_by_title(titre)
-      @@livres.select { |_, livre| livre.titre == titre }.values.first
+      @@livres.select { |_, livre| livre.titre.include? titre}.values
     end
 
     def clear!

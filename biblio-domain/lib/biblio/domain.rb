@@ -19,10 +19,12 @@ require 'biblio/response_models/rechercher_livre_response'
 require 'biblio/view_models/view_model'
 require 'biblio/view_models/afficher_livres_view_model'
 require 'biblio/view_models/enregistrer_livre_view_model'
+require 'biblio/view_models/rechercher_livre_view_model'
 
 require 'biblio/presenters/presenter'
 require 'biblio/presenters/afficher_livres_presenter'
 require 'biblio/presenters/enregistrer_livre_presenter'
+require 'biblio/presenters/rechercher_livre_presenter'
 
 require 'biblio/adapters/livre_repository'
 require 'biblio/adapters/livre_in_memory_repository'

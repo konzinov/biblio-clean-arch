@@ -7,8 +7,8 @@ module Biblio
       option :erreurs
 
       class Livre
-        extend Dry::Initializer
         include Dry::Equalizer(:titre)
+        extend Dry::Initializer
 
         option :titre
         option :auteur

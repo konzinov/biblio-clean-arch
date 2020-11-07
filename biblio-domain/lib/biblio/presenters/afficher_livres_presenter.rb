@@ -9,17 +9,18 @@ module Biblio
         view_model.new(resume_nb_livres(livres), livres)
       end
 
+      private
+
       def view_model
         ViewModels::AfficherLivresViewModel
       end
 
-      private
       def resume_nb_livres(livres)
         @resume_nb_livres ||= if livres.empty?
-                          'Aucun livre présent'
-                        else
-                          "#{livres.size} Livres"
-                        end
+                                'Aucun livre présent'
+                              else
+                                "#{livres.size} Livres"
+                              end
       end
     end
   end

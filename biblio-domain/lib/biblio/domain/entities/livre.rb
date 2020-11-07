@@ -1,7 +1,7 @@
 module Biblio::Domain::Entities
   class Livre
-    extend Dry::Initializer
     include Dry::Equalizer(:titre)
+    extend Dry::Initializer
     
     param :titre
     param :auteur
