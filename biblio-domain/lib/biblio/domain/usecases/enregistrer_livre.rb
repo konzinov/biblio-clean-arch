@@ -5,7 +5,7 @@ module Biblio
         param :livre_repository
 
         def execute(enregistrer_live_request, presenter)
-          errors = validate_demande enregistrer_live_request
+          errors = validate_request_model enregistrer_live_request
           response = if errors.any?
                        response_model.build(errors: errors)
                      else
@@ -24,9 +24,9 @@ module Biblio
           presenter.present(response)
         end
 
-        def validate_demande(demande_creation_livre)
+        def validate_request_model(enregistrer_live_request)
           errors = {}
-          errors[:titre] = 'Titre absent' if demande_creation_livre.titre.nil? || demande_creation_livre.titre.empty?
+          errors[:titre] = 'Titre absent' if enregistrer_live_request.titre.nil? || enregistrer_live_request.titre.empty?
           errors
         end
 

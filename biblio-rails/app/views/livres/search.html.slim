@@ -1,7 +1,6 @@
 = form_tag(search_livres_path, method: "get") do
-  = text_field_tag :titre
+  = text_field_tag :titre, @form.titre
   = submit_tag "Chercher"
-
 
 ul
   - @view_model.livres.each do |livre|

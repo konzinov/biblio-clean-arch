@@ -5,7 +5,8 @@ module Biblio
         param :livre_repository
 
         def execute(rechercher_livre_request, presenter)
-          livres = livre_repository.find_by_title(rechercher_livre_request.titre)
+          livres = []
+          livres = livre_repository.find_by_title(rechercher_livre_request.titre) unless rechercher_livre_request.titre.empty?
           response = response_class.new(livres)
           presenter.present response
         end

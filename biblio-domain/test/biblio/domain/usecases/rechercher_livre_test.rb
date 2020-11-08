@@ -13,6 +13,16 @@ module Biblio
           @usecase = Biblio::Domain::UseCases::RechercherLivre.new(@repo)
         end
 
+        def test_trouver_aucun_livre_sans_titre
+          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new("")
+          presenter = Biblio::Presenters::RechercherLivrePresenter.new
+          recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
+
+          assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
+          assert_empty recherche_livre_view_model.livres
+          assert_equal 'Aucun livre trouvé', recherche_livre_view_model.message
+        end
+
         def test_trouver_aucun_livre
           rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new('Livre non enregistré')
           presenter = Biblio::Presenters::RechercherLivrePresenter.new
