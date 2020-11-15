@@ -37,7 +37,7 @@ module Biblio
           assert_equal enregistrer_livre_view_model.erreurs, ["TITRE: Titre absent"]
         end
 
-        def test_enregistre_livre_echec_repository
+        def test_enregistrer_livre_echec_repository
           mock = Minitest::Mock.new
           def mock.save(demande); false; end
 
