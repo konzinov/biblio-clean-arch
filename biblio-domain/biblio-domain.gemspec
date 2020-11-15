@@ -10,7 +10,9 @@ Gem::Specification.new do |spec|
   spec.description   = 'Write a longer description or delete this line.'
   spec.homepage      = 'https://github.com/konzinov/biblio-clean-arch'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
+  spec.required_ruby_version = Gem::Specification.new do |s|
+    s.required_ruby_version = ['>= 2.6.0', '~> 2.7.0']
+  end
 
   spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
 

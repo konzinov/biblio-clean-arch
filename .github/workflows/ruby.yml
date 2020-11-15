@@ -29,5 +29,7 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
     - name: Domain - Install dependencies
       run: cd biblio-domain && bundle install
+    - name: Domain - Lint
+      run: cd biblio-domain && bundle exec rubocop
     - name: Domain - Run tests
       run: cd biblio-domain && bundle exec rake
