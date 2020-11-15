@@ -17,14 +17,17 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: [ '2.6', '2.7' ]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby
+    - name: Set up Ruby ${{ matrix.ruby }}
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6
+        ruby-version: ${{ matrix.ruby }}
     - name: Domain - Install dependencies
       run: cd biblio-domain && bundle install
-    - name: Run tests
+    - name: Domain - Run tests
       run: cd biblio-domain && bundle exec rake
