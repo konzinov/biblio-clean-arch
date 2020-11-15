@@ -7,14 +7,14 @@ module Biblio
         def setup
           @repo = Biblio::Adapters::LivreInMemoryRepository.new
           @repo.clear!
-          @repo.save(Biblio::Domain::Entities::Livre.new('Le vieux nègre et la médaille', 'Bernard Dadié', nil, nil))
-          @repo.save(Biblio::Domain::Entities::Livre.new('Le vieux port de marseille', 'Julien Mounier', nil, nil))
-          @repo.save(Biblio::Domain::Entities::Livre.new('Nancy si belle', 'Vivien Mukandjo', nil, nil))
+          @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
+          @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
+          @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
           @usecase = Biblio::Domain::UseCases::RechercherLivre.new(@repo)
         end
 
         def test_trouver_aucun_livre_sans_titre
-          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new("")
+          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new('')
           presenter = Biblio::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
@@ -59,7 +59,6 @@ module Biblio
           assert_includes recherche_livre_view_model.livres, Biblio::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux port de marseille',
                                                                                                                      auteur: 'Julien Mounier')
         end
-
       end
     end
   end

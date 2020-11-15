@@ -1,5 +1,6 @@
-module Biblio::Adapters
-  class LivreActiveRecordRepository < LivreRepository
-  
+module Biblio
+  module Adapters
+    class LivreActiveRecordRepository < LivreRepository
+    end
   end
 end

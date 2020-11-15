@@ -1,7 +1,7 @@
 module Biblio
   module Domain
     module UseCases
-      class AfficherLivres < UseCase
+      class   AfficherLivres < UseCase
         param :livre_repository
 
         def execute(presenter)

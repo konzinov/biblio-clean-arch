@@ -20,9 +20,9 @@ module Biblio
       end
 
       def test_afficher_livres_livres_presents
-        @repo.save(Biblio::Domain::Entities::Livre.new('Le vieux nègre et la médaille', 'Bernard Dadié', nil, nil))
-        @repo.save(Biblio::Domain::Entities::Livre.new('Le vieux port de marseille', 'Julien Mounier', nil, nil))
-        @repo.save(Biblio::Domain::Entities::Livre.new('Nancy si belle', 'Vivien Mukandjo', nil, nil))
+        @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
+        @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
+        @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
         presenter = Biblio::Presenters::AfficherLivresPresenter.new
         afficher_livres_view_model = @usecase.execute(presenter)
 
