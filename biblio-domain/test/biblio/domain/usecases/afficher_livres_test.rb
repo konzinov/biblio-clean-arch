@@ -4,26 +4,26 @@ module Biblio
   module Domain
     class AfficherLivresTest < Minitest::Test
       def setup
-        @repo = Biblio::Adapters::LivreInMemoryRepository.new
+        @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
         @repo.clear!
-        @usecase = Biblio::Domain::UseCases::AfficherLivres.new(@repo)
+        @usecase = Biblio::Catalogue::UseCases::AfficherLivres.new(@repo)
       end
 
       def test_afficher_livres_aucun_livre
         @repo.clear!
-        presenter = Biblio::Presenters::AfficherLivresPresenter.new
+        presenter = Biblio::Catalogue::Presenters::AfficherLivresPresenter.new
         afficher_livres_view_model = @usecase.execute(presenter)
 
         assert_instance_of Biblio::ViewModels::AfficherLivresViewModel, afficher_livres_view_model
         assert_empty afficher_livres_view_model.livres
-        assert_equal afficher_livres_view_model.resume_nb_livres, 'Aucun livre présent'
+        assert_equal 'Aucun livre présent', afficher_livres_view_model.resume_nb_livres
       end
 
       def test_afficher_livres_livres_presents
-        @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
-        @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
-        @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
-        presenter = Biblio::Presenters::AfficherLivresPresenter.new
+        @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
+        @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
+        @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
+        presenter = Biblio::Catalogue::Presenters::AfficherLivresPresenter.new
         afficher_livres_view_model = @usecase.execute(presenter)
 
         assert_instance_of Biblio::ViewModels::AfficherLivresViewModel, afficher_livres_view_model

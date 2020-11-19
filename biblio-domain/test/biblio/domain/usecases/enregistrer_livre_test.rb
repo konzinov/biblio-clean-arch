@@ -5,36 +5,34 @@ module Biblio
     module UseCases
       class EnregistrerLivreTest < Minitest::Test
         def setup
-          @repo = Biblio::Adapters::LivreInMemoryRepository.new
+          @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
           @repo.clear!
-          @usecase = Biblio::Domain::UseCases::EnregistrerLivre.new(@repo)
+          @usecase = Biblio::Catalogue::UseCases::EnregistrerLivre.new(@repo)
         end
 
         def test_enregistrer_livre_success
-          demande_creation_livre = Biblio::RequestModels::EnregistrerLivreRequest.new('Le Pagne noir',
+          demande_creation_livre = Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.new('Le Pagne noir',
                                                                                       'Bernard Dadié',
                                                                                       120,
                                                                                       Date.new(1955, 1, 1))
-          presenter = Biblio::Presenters::EnregistrerLivrePresenter.new
+          presenter = Biblio::Catalogue::Presenters::EnregistrerLivrePresenter.new
           enregistrer_livre_view_model = @usecase.execute(demande_creation_livre, presenter)
 
           assert_instance_of Biblio::ViewModels::EnregistrerLivreViewModel, enregistrer_livre_view_model
-          assert_equal enregistrer_livre_view_model.message, 'Livre enregistré avec succès'
+          assert_equal 'Livre enregistré avec succès', enregistrer_livre_view_model.message
           assert_empty enregistrer_livre_view_model.erreurs
-          assert_equal enregistrer_livre_view_model.livre, Biblio::ViewModels::EnregistrerLivreViewModel::Livre.new(titre: 'Le Pagne noir',
-                                                                                                                    auteur: nil,
-                                                                                                                    nb_pages: nil,
-                                                                                                                    date_publication: nil)
+          assert_equal Biblio::ViewModels::EnregistrerLivreViewModel::Livre.new(titre: 'Le Pagne noir', auteur: nil, nb_pages: nil, date_publication: nil),
+                       enregistrer_livre_view_model.livre
         end
 
         def test_enregistrer_livre_echec_validation
-          demande_creation_livre = Biblio::RequestModels::EnregistrerLivreRequest.new(nil, nil, nil, nil)
+          demande_creation_livre = Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.new(nil, nil, nil, nil)
 
-          presenter = Biblio::Presenters::EnregistrerLivrePresenter.new
+          presenter = Biblio::Catalogue::Presenters::EnregistrerLivrePresenter.new
           enregistrer_livre_view_model = @usecase.execute(demande_creation_livre, presenter)
 
-          assert_equal enregistrer_livre_view_model.message, "Echec de l'enregistrement du livre"
-          assert_equal enregistrer_livre_view_model.erreurs, ['TITRE: Titre absent']
+          assert_equal "Echec de l'enregistrement du livre", enregistrer_livre_view_model.message
+          assert_equal ['TITRE: Titre absent'], enregistrer_livre_view_model.erreurs
         end
 
         def test_enregistrer_livre_echec_repository
@@ -43,16 +41,16 @@ module Biblio
             false
           end
 
-          enregistrer_livre_request = Biblio::RequestModels::EnregistrerLivreRequest.new('Le pagne Noir', 'Bernard Dadié', nil, nil)
+          enregistrer_livre_request = Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.new('Le pagne Noir', 'Bernard Dadié', nil, nil)
 
-          Biblio::Adapters::LivreInMemoryRepository.stub :new, mock do
-            @repo = Biblio::Adapters::LivreInMemoryRepository.new
-            @usecase = Biblio::Domain::UseCases::EnregistrerLivre.new(@repo)
+          Biblio::Catalogue::Adapters::LivreInMemoryRepository.stub :new, mock do
+            @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
+            @usecase = Biblio::Catalogue::UseCases::EnregistrerLivre.new(@repo)
 
-            presenter = Biblio::Presenters::EnregistrerLivrePresenter.new
+            presenter = Biblio::Catalogue::Presenters::EnregistrerLivrePresenter.new
             enregistrer_livre_view_model = @usecase.execute(enregistrer_livre_request, presenter)
-            assert_equal enregistrer_livre_view_model.message, "Echec de l'enregistrement du livre"
-            assert_equal enregistrer_livre_view_model.erreurs, ['DB: repository error']
+            assert_equal "Echec de l'enregistrement du livre", enregistrer_livre_view_model.message
+            assert_equal ['DB: repository error'], enregistrer_livre_view_model.erreurs
           end
         end
       end

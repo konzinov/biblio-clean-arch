@@ -1,5 +1,5 @@
 module Biblio
-  module Domain
+  module Catalogue
     module Entities
       class Livre
         include Dry::Equalizer(:titre)

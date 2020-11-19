@@ -1,12 +1,12 @@
 module Biblio
-  module Domain
+  module Catalogue
     module UseCases
-      class   AfficherLivres < UseCase
+      class AfficherLivres < UseCase
         param :livre_repository
 
         def execute(presenter)
           livres = livre_repository.all
-          response_model = Biblio::ResponseModels::AfficherLivresResponse.new(livres)
+          response_model = Biblio::Catalogue::ResponseModels::AfficherLivresResponse.new(livres)
           presenter.present(response_model)
         end
       end

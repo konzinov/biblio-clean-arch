@@ -2,9 +2,9 @@ class LivresController < ApplicationController
   def initialize
     super
     @livre_repository = Biblio::Adapters::LivreInMemoryRepository.new
-    @enregistrer_livre = Biblio::Domain::UseCases::EnregistrerLivre.new(@livre_repository)
-    @afficher_livres = Biblio::Domain::UseCases::AfficherLivres.new(@livre_repository)
-    @rechercher_livre =Biblio::Domain::UseCases::RechercherLivre.new(@livre_repository)
+    @enregistrer_livre = Biblio::Catalogue::UseCases::EnregistrerLivre.new(@livre_repository)
+    @afficher_livres = Biblio::Catalogue::UseCases::AfficherLivres.new(@livre_repository)
+    @rechercher_livre =Biblio::Catalogue::UseCases::RechercherLivre.new(@livre_repository)
   end
 
   def index
@@ -19,7 +19,7 @@ class LivresController < ApplicationController
   def create
     @form = Livre::EnregistrerLivreForm.new(enregister_livre_params)
 
-    enregistrer_livre_request = Biblio::RequestModels::EnregistrerLivreRequest.new(@form.titre,
+    enregistrer_livre_request = Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.new(@form.titre,
                                                                                    @form.auteur,
                                                                                    @form.nb_pages,
                                                                                    @form.date_publication)
@@ -30,7 +30,7 @@ class LivresController < ApplicationController
   def search
     if (titre = params[:titre])
       presenter = Biblio::Presenters::RechercherLivrePresenter.new
-      request_model = Biblio::RequestModels::RechercherLivreRequest.new(titre)
+      request_model = Biblio::Catalogue::RequestModels::RechercherLivreRequest.new(titre)
       @view_model = @rechercher_livre.execute(request_model, presenter)
       @form = Livre::RechercherLivreForm.new(titre)
     else

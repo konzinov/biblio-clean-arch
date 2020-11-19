@@ -5,17 +5,17 @@ module Biblio
     module UseCases
       class RechercherLivreTest < Minitest::Test
         def setup
-          @repo = Biblio::Adapters::LivreInMemoryRepository.new
+          @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
           @repo.clear!
-          @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
-          @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
-          @repo.save(Biblio::Domain::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
-          @usecase = Biblio::Domain::UseCases::RechercherLivre.new(@repo)
+          @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
+          @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
+          @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
+          @usecase = Biblio::Catalogue::UseCases::RechercherLivre.new(@repo)
         end
 
         def test_trouver_aucun_livre_sans_titre
-          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new('')
-          presenter = Biblio::Presenters::RechercherLivrePresenter.new
+          rechercher_livre_request = Biblio::Catalogue::RequestModels::RechercherLivreRequest.new('')
+          presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
           assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
@@ -24,8 +24,8 @@ module Biblio
         end
 
         def test_trouver_aucun_livre
-          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new('Livre non enregistré')
-          presenter = Biblio::Presenters::RechercherLivrePresenter.new
+          rechercher_livre_request = Biblio::Catalogue::RequestModels::RechercherLivreRequest.new('Livre non enregistré')
+          presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
           assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
@@ -34,8 +34,8 @@ module Biblio
         end
 
         def test_trouver_un_livre
-          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new('Le vieux nègre et la médaille')
-          presenter = Biblio::Presenters::RechercherLivrePresenter.new
+          rechercher_livre_request = Biblio::Catalogue::RequestModels::RechercherLivreRequest.new('Le vieux nègre et la médaille')
+          presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
           assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
@@ -46,8 +46,8 @@ module Biblio
         end
 
         def test_trouver_deux_livres
-          rechercher_livre_request = Biblio::RequestModels::RechercherLivreRequest.new('Le vieux')
-          presenter = Biblio::Presenters::RechercherLivrePresenter.new
+          rechercher_livre_request = Biblio::Catalogue::RequestModels::RechercherLivreRequest.new('Le vieux')
+          presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
           assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model

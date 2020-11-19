@@ -1,5 +1,5 @@
 module Biblio
-  module Domain
+  module Catalogue
     module UseCases
       class UseCase
         extend Dry::Initializer

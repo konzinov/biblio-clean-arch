@@ -1,5 +1,5 @@
 module Biblio
-  module Domain
+  module Catalogue
     module UseCases
       class RechercherLivre < UseCase
         param :livre_repository
@@ -12,7 +12,7 @@ module Biblio
         end
 
         def response_class
-          Biblio::ResponseModels::RechercherLivreResponse
+          Biblio::Catalogue::ResponseModels::RechercherLivreResponse
         end
       end
     end

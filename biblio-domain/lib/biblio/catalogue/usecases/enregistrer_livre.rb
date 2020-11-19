@@ -1,5 +1,5 @@
 module Biblio
-  module Domain
+  module Catalogue
     module UseCases
       class EnregistrerLivre < UseCase
         param :livre_repository
@@ -9,7 +9,7 @@ module Biblio
           response = if errors.any?
                        response_model.build(errors: errors)
                      else
-                       livre = Entities::Livre.new(**Biblio::RequestModels::EnregistrerLivreRequest.dry_initializer.attributes(enregistrer_live_request))
+                       livre = Biblio::Catalogue::Entities::Livre.new(**Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.dry_initializer.attributes(enregistrer_live_request))
 
                        if livre_repository.save(livre)
                          response_model.build(livre: livre)
@@ -30,7 +30,7 @@ module Biblio
         end
 
         def response_model
-          Biblio::ResponseModels::EnregistrerLivreResponse
+          Biblio::Catalogue::ResponseModels::EnregistrerLivreResponse
         end
       end
     end

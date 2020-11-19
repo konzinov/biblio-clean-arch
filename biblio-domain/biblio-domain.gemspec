@@ -1,4 +1,4 @@
-require_relative 'lib/biblio/domain/version'
+require_relative 'lib/biblio/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'biblio-domain'
