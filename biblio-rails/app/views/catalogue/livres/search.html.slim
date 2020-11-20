@@ -1,6 +1,8 @@
-= form_tag(search_livres_path, method: "get") do
+= form_tag(search_catalogue_livres_path, method: "get") do
   = text_field_tag :titre, @form.titre
   = submit_tag "Chercher"
+
+span = @view_model.message
 
 ul
   - @view_model.livres.each do |livre|

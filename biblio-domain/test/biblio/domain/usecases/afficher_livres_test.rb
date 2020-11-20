@@ -14,7 +14,7 @@ module Biblio
         presenter = Biblio::Catalogue::Presenters::AfficherLivresPresenter.new
         afficher_livres_view_model = @usecase.execute(presenter)
 
-        assert_instance_of Biblio::ViewModels::AfficherLivresViewModel, afficher_livres_view_model
+        assert_instance_of Biblio::Catalogue::ViewModels::AfficherLivresViewModel, afficher_livres_view_model
         assert_empty afficher_livres_view_model.livres
         assert_equal 'Aucun livre présent', afficher_livres_view_model.resume_nb_livres
       end
@@ -26,7 +26,7 @@ module Biblio
         presenter = Biblio::Catalogue::Presenters::AfficherLivresPresenter.new
         afficher_livres_view_model = @usecase.execute(presenter)
 
-        assert_instance_of Biblio::ViewModels::AfficherLivresViewModel, afficher_livres_view_model
+        assert_instance_of Biblio::Catalogue::ViewModels::AfficherLivresViewModel, afficher_livres_view_model
         assert_equal '3 Livres', afficher_livres_view_model.resume_nb_livres
         assert_equal ['Le vieux nègre et la médaille', 'Le vieux port de marseille', 'Nancy si belle'],
                      afficher_livres_view_model.livres.map(&:titre)

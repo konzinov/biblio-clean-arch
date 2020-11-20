@@ -12,16 +12,16 @@ module Biblio
 
         def test_enregistrer_livre_success
           demande_creation_livre = Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.new('Le Pagne noir',
-                                                                                      'Bernard Dadié',
-                                                                                      120,
-                                                                                      Date.new(1955, 1, 1))
+                                                                                                 'Bernard Dadié',
+                                                                                                 120,
+                                                                                                 Date.new(1955, 1, 1))
           presenter = Biblio::Catalogue::Presenters::EnregistrerLivrePresenter.new
           enregistrer_livre_view_model = @usecase.execute(demande_creation_livre, presenter)
 
-          assert_instance_of Biblio::ViewModels::EnregistrerLivreViewModel, enregistrer_livre_view_model
+          assert_instance_of Biblio::Catalogue::ViewModels::EnregistrerLivreViewModel, enregistrer_livre_view_model
           assert_equal 'Livre enregistré avec succès', enregistrer_livre_view_model.message
           assert_empty enregistrer_livre_view_model.erreurs
-          assert_equal Biblio::ViewModels::EnregistrerLivreViewModel::Livre.new(titre: 'Le Pagne noir', auteur: nil, nb_pages: nil, date_publication: nil),
+          assert_equal Biblio::Catalogue::ViewModels::EnregistrerLivreViewModel::Livre.new(titre: 'Le Pagne noir', auteur: nil, nb_pages: nil, date_publication: nil),
                        enregistrer_livre_view_model.livre
         end
 

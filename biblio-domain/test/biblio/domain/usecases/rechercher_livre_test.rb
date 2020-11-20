@@ -18,7 +18,7 @@ module Biblio
           presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
-          assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
+          assert_instance_of Biblio::Catalogue::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
           assert_empty recherche_livre_view_model.livres
           assert_equal 'Aucun livre trouvé', recherche_livre_view_model.message
         end
@@ -28,7 +28,7 @@ module Biblio
           presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
-          assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
+          assert_instance_of Biblio::Catalogue::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
           assert_empty recherche_livre_view_model.livres
           assert_equal 'Aucun livre trouvé', recherche_livre_view_model.message
         end
@@ -38,11 +38,11 @@ module Biblio
           presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
-          assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
+          assert_instance_of Biblio::Catalogue::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
           assert_equal 1, recherche_livre_view_model.livres.size
           assert_equal '1 Livres', recherche_livre_view_model.message
-          assert_equal recherche_livre_view_model.livres.first, Biblio::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux nègre et la médaille',
-                                                                                                                        auteur: 'Bernard Dadié')
+          assert_equal recherche_livre_view_model.livres.first, Biblio::Catalogue::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux nègre et la médaille',
+                                                                                                                                   auteur: 'Bernard Dadié')
         end
 
         def test_trouver_deux_livres
@@ -50,14 +50,14 @@ module Biblio
           presenter = Biblio::Catalogue::Presenters::RechercherLivrePresenter.new
           recherche_livre_view_model = @usecase.execute(rechercher_livre_request, presenter)
 
-          assert_instance_of Biblio::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
+          assert_instance_of Biblio::Catalogue::ViewModels::RechercherLivreViewModel, recherche_livre_view_model
           assert_equal 2, recherche_livre_view_model.livres.size
           assert_equal '2 Livres', recherche_livre_view_model.message
-          assert_includes recherche_livre_view_model.livres, Biblio::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux nègre et la médaille',
-                                                                                                                     auteur: 'Bernard Dadié')
+          assert_includes recherche_livre_view_model.livres, Biblio::Catalogue::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux nègre et la médaille',
+                                                                                                                                auteur: 'Bernard Dadié')
 
-          assert_includes recherche_livre_view_model.livres, Biblio::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux port de marseille',
-                                                                                                                     auteur: 'Julien Mounier')
+          assert_includes recherche_livre_view_model.livres, Biblio::Catalogue::ViewModels::RechercherLivreViewModel::Livre.new(titre: 'Le vieux port de marseille',
+                                                                                                                                auteur: 'Julien Mounier')
         end
       end
     end

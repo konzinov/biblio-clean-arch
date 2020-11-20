@@ -1,7 +1,9 @@
 module Biblio
-  module ViewModels
-    class ViewModel
-      extend Dry::Initializer
+  module Catalogue
+    module ViewModels
+      class ViewModel
+        extend Dry::Initializer
+      end
     end
   end
 end
