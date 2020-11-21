@@ -1,5 +1,5 @@
-h1= @enregistrer_livre_view_model.message
-- if @enregistrer_livre_view_model.erreurs.any?
+h1= @view_model.message
+- if @view_model.erreurs.any?
   ul
-    - @enregistrer_livre_view_model.erreurs.each do |erreur|
+    - @view_model.erreurs.each do |erreur|
       li = erreur

@@ -8,4 +8,6 @@ gem 'rake', '~> 12.0'
 
 gem 'dry-initializer'
 
-gem 'rubocop', require: false
+group :development do
+  gem 'rubocop', require: false
+end
