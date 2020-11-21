@@ -27,9 +27,19 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
+
+    # Domain Step
     - name: Domain - Install dependencies
       run: cd biblio-domain && bundle install
     - name: Domain - Lint
       run: cd biblio-domain && bundle exec rubocop
     - name: Domain - Run tests
       run: cd biblio-domain && bundle exec rake
+
+    # RoR app Step
+    - name: Rails App - Install dependencies
+      run: cd biblio-rails && bundle install && yarn install
+    - name: Rails App - Lint
+      run: cd biblio-rails && bundle exec rubocop
+    - name: Rails App - Run tests
+      run: cd biblio-rails && RAILS_ENV=test bundle exec rake db:migrate && bundle exec rake
