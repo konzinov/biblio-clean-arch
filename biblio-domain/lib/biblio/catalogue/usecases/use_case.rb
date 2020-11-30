@@ -5,6 +5,12 @@ module Biblio
         extend Dry::Initializer
 
         def execute(request_model, presenter = nil); end
+
+        private
+
+        def request_model; end
+
+        def response_model; end
       end
     end
   end

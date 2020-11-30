@@ -6,31 +6,32 @@ module Biblio
 
         def execute(enregistrer_live_request, presenter)
           errors = validate_request_model(enregistrer_live_request)
-          response = if errors.any?
-                       response_model.build(errors: errors)
-                     else
-                       livre = Biblio::Catalogue::Entities::Livre.new(**Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.dry_initializer.attributes(enregistrer_live_request))
+          if errors.any?
+            response = response_model.build(errors: errors)
+            return presenter.present(response)
+          end
 
-                       if livre_repository.save(livre)
-                         response_model.build(livre: livre)
-                       else
-                         response_model.build(livre: livre, errors: { db: 'repository error' })
-                       end
-                     end
-
+          livre = Biblio::Catalogue::Entities::Livre.new(**request_model.dry_initializer.attributes(enregistrer_live_request))
+          save_errors = {}
+          save_errors[:db] = 'repository error' unless livre_repository.save(livre)
+          response = response_model.build(livre: livre, errors: save_errors)
           presenter.present(response)
         end
 
         private
 
-        def validate_request_model(enregistrer_live_request)
-          errors = {}
-          errors[:titre] = 'Titre absent' if enregistrer_live_request.titre.nil? || enregistrer_live_request.titre.empty?
-          errors
+        def request_model
+          Biblio::Catalogue::RequestModels::EnregistrerLivreRequest
         end
 
         def response_model
           Biblio::Catalogue::ResponseModels::EnregistrerLivreResponse
+        end
+
+        def validate_request_model(enregistrer_live_request)
+          {}.tap do |errors|
+            errors[:titre] = 'Titre absent' if enregistrer_live_request.titre.nil? || enregistrer_live_request.titre.empty?
+          end
         end
       end
     end

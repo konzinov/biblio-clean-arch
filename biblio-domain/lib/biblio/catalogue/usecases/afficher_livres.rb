@@ -6,8 +6,14 @@ module Biblio
 
         def execute(presenter)
           livres = livre_repository.all
-          response_model = Biblio::Catalogue::ResponseModels::AfficherLivresResponse.new(livres)
-          presenter.present(response_model)
+          response = response_model.new(livres)
+          presenter.present(response)
+        end
+
+        private
+
+        def response_model
+          Biblio::Catalogue::ResponseModels::AfficherLivresResponse
         end
       end
     end
