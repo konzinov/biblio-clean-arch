@@ -31,4 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'dry-equalizer'
   spec.add_dependency 'dry-initializer'
+  spec.add_dependency 'pg'
+  spec.add_dependency 'rom'
+  spec.add_dependency 'rom-sql'
 end

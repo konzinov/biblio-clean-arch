@@ -4,7 +4,7 @@ module Biblio
   module Domain
     class AfficherLivresTest < Minitest::Test
       def setup
-        @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
+        @repo = Biblio::Catalogue::Adapters::LivreDbRepository.new
         @repo.clear!
         @usecase = Biblio::Catalogue::UseCases::AfficherLivres.new(@repo)
       end

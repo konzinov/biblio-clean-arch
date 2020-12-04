@@ -5,12 +5,16 @@ module Biblio
     module UseCases
       class RechercherLivreTest < Minitest::Test
         def setup
-          @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
+          @repo = Biblio::Catalogue::Adapters::LivreDbRepository.new
           @repo.clear!
           @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Le vieux nègre et la médaille', auteur: 'Bernard Dadié'))
           @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Le vieux port de marseille', auteur: 'Julien Mounier'))
           @repo.save(Biblio::Catalogue::Entities::Livre.new(titre: 'Nancy si belle', auteur: 'Vivien Mukandjo'))
           @usecase = Biblio::Catalogue::UseCases::RechercherLivre.new(@repo)
+        end
+
+        def teardown
+          @repo.clear!
         end
 
         def test_trouver_aucun_livre_sans_titre

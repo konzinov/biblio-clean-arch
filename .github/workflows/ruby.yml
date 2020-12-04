@@ -21,6 +21,13 @@ jobs:
       matrix:
         ruby: [ '2.6', '2.7' ]
 
+    services:
+      postgres:
+        image: postgres:12.0
+        env:
+          POSTGRES_PASSWORD: root
+        ports:
+          - 5432:5432
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby ${{ matrix.ruby }}
@@ -33,6 +40,10 @@ jobs:
       run: cd biblio-domain && bundle install
     - name: Domain - Lint
       run: cd biblio-domain && bundle exec rubocop
+    - name: Domain - Setup DB
+      run: PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+    - name: Domain - Migrations
+      run: cd biblio-domain && bundle exec rake db:migrate
     - name: Domain - Run tests
       run: cd biblio-domain && bundle exec rake
 

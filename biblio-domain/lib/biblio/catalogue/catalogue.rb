@@ -23,4 +23,5 @@ require_relative 'presenters/enregistrer_livre_presenter'
 require_relative 'presenters/rechercher_livre_presenter'
 
 require_relative 'adapters/livre_repository'
-require_relative 'adapters/livre_in_memory_repository'
+require_relative 'adapters/livre_inmemory_repository'
+require_relative 'adapters/livre_db_repository'

@@ -11,3 +11,7 @@ gem 'dry-initializer'
 group :development do
   gem 'rubocop', require: false
 end
+
+gem 'pg'
+gem 'rom',     '~> 5.2'
+gem 'rom-sql', '~> 3.2'

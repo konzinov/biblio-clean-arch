@@ -5,7 +5,7 @@ module Biblio
     module UseCases
       class EnregistrerLivreTest < Minitest::Test
         def setup
-          @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
+          @repo = Biblio::Catalogue::Adapters::LivreDbRepository.new
           @repo.clear!
           @usecase = Biblio::Catalogue::UseCases::EnregistrerLivre.new(@repo)
         end
@@ -43,8 +43,8 @@ module Biblio
 
           enregistrer_livre_request = Biblio::Catalogue::RequestModels::EnregistrerLivreRequest.new('Le pagne Noir', 'Bernard Dadié', nil, nil)
 
-          Biblio::Catalogue::Adapters::LivreInMemoryRepository.stub :new, mock do
-            @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
+          Biblio::Catalogue::Adapters::LivreDbRepository.stub :new, mock do
+            @repo = Biblio::Catalogue::Adapters::LivreDbRepository.new
             @usecase = Biblio::Catalogue::UseCases::EnregistrerLivre.new(@repo)
 
             presenter = Biblio::Catalogue::Presenters::EnregistrerLivrePresenter.new
