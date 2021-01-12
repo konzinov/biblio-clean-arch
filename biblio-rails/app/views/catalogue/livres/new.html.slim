@@ -1,4 +1,5 @@
 = form_for @form, url: catalogue_livres_path do |f|
   = f.text_field :titre
   = f.text_field :auteur
+  = f.number_field :nb_pages
   = f.submit "Create"

@@ -20,7 +20,8 @@ module Biblio
       def config
         return @config if @config
 
-        @config ||= ROM::Configuration.new(:sql, 'postgres://127.0.0.1:5432/bibliodb', OPTS)
+        puts "database url #{ENV['DATABASE_URL']}"
+        @config ||= ROM::Configuration.new(:sql, ENV['DATABASE_URL'], OPTS)
         @config.register_relation(Biblio::Db::Relations::Livres)
         @config
       end

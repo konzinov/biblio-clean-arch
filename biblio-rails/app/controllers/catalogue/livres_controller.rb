@@ -2,7 +2,7 @@ module Catalogue
   class LivresController < ApplicationController
     def initialize
       super
-      @livre_repository = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
+      @livre_repository = Biblio::Catalogue::Adapters::LivreDbRepository.new
       @enregistrer_livre = Biblio::Catalogue::UseCases::EnregistrerLivre.new(@livre_repository)
       @afficher_livres = Biblio::Catalogue::UseCases::AfficherLivres.new(@livre_repository)
       @rechercher_livre = Biblio::Catalogue::UseCases::RechercherLivre.new(@livre_repository)
@@ -46,7 +46,7 @@ module Catalogue
     private
 
     def enregister_livre_params
-      params.require(:catalogue_enregistrer_livre_form).permit(:titre, :auteur).to_h.symbolize_keys
+      params.require(:catalogue_enregistrer_livre_form).permit(:titre, :auteur, :nb_pages).to_h.symbolize_keys
     end
   end
 end

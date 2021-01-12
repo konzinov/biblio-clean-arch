@@ -2,10 +2,7 @@ require 'test_helper'
 
 class LivresControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @repo = Biblio::Catalogue::Adapters::LivreInMemoryRepository.new
-  end
-
-  def teardown
+    @repo = Biblio::Catalogue::Adapters::LivreDbRepository.new
     @repo.clear!
   end
 
@@ -29,7 +26,7 @@ class LivresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create livre' do
-    post '/catalogue/livres', params: { catalogue_enregistrer_livre_form: { titre: 'Les bouts de bois de Dieu', auteur: 'Sembene Ousmane' } }
+    post '/catalogue/livres', params: { catalogue_enregistrer_livre_form: { titre: 'Les bouts de bois de Dieu', auteur: 'Sembene Ousmane', nb_pages: 120 } }
 
     assert_response :success
     assert_instance_of Biblio::Catalogue::ViewModels::EnregistrerLivreViewModel, assigns(:view_model)

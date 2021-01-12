@@ -43,14 +43,18 @@ jobs:
     - name: Domain - Setup DB
       run: PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
     - name: Domain - Migrations
-      run: cd biblio-domain && bundle exec rake db:migrate
+      run: cd biblio-domain && DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
     - name: Domain - Run tests
-      run: cd biblio-domain && bundle exec rake
+      run: cd biblio-domain && DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake
 
     # RoR app Step
     - name: Rails App - Install dependencies
       run: cd biblio-rails && bundle install && yarn install
     - name: Rails App - Lint
       run: cd biblio-rails && bundle exec rubocop
+    - name: Domain - Setup DB
+      run: PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+    - name: Domain - Migrations
+      run: cd biblio-rails && DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
     - name: Rails App - Run tests
-      run: cd biblio-rails && RAILS_ENV=test bundle exec rake db:migrate && bundle exec rake
+      run: cd biblio-rails && RAILS_ENV=test DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle rake

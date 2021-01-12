@@ -10,7 +10,6 @@ module Biblio
       end
 
       def test_afficher_livres_aucun_livre
-        @repo.clear!
         presenter = Biblio::Catalogue::Presenters::AfficherLivresPresenter.new
         afficher_livres_view_model = @usecase.execute(presenter)
 
