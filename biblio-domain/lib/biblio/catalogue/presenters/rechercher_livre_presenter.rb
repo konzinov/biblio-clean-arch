@@ -25,7 +25,6 @@ module Biblio
                                   "#{livres.size} Livres"
                                 end
         end
-
       end
     end
   end

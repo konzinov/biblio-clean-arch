@@ -3,7 +3,6 @@ require 'test_helper'
 module Biblio
   module Catalogue
     class RechercherLivreTest < Minitest::Test
-
       def setup
         @repo = Biblio::Db::Container.resolve(:livre_repository)
         @repo.clear!
@@ -78,4 +77,3 @@ module Biblio
     end
   end
 end
-
