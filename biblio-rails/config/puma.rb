@@ -7,7 +7,6 @@
 max_threads_count = ENV.fetch('RAILS_MAX_THREADS', 5)
 min_threads_count = ENV.fetch('RAILS_MIN_THREADS') { max_threads_count }
 threads min_threads_count, max_threads_count
-workers 2
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
@@ -38,7 +37,7 @@ preload_app!
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-# Important pour ne pas perturber la création workers
+# Important pour ne pas perturber la creation workers
 before_fork do
   Rails.logger.info 'disonnecting from master process'
   Biblio::Db::Container.resolve(:rom).gateways[:default].disconnect
