@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LivresControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @repo = Biblio::Catalogue::Adapters::LivreDbRepository.new
+    @repo = Biblio::Db::Container.resolve(:livre_repository)
     @repo.clear!
   end
 
@@ -43,7 +43,7 @@ class LivresControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not find any book with missing title' do
-    get '/catalogue/livres/search', params: {}
+    get '/catalogue/livres/search', params: { titre: ' ' }
 
     assert_response :missing
     assert_instance_of Biblio::Catalogue::ViewModels::RechercherLivreViewModel, assigns(:view_model)

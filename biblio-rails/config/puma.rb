@@ -7,6 +7,7 @@
 max_threads_count = ENV.fetch('RAILS_MAX_THREADS', 5)
 min_threads_count = ENV.fetch('RAILS_MIN_THREADS') { max_threads_count }
 threads min_threads_count, max_threads_count
+workers 2
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
@@ -41,9 +42,4 @@ plugin :tmp_restart
 before_fork do
   Rails.logger.info 'disonnecting from master process'
   Biblio::Db::Container.resolve(:rom).gateways[:default].disconnect
-end
-
-# Reconnexion individuelle par worker
-on_worker_boot do
-  Biblio::Db::Container.init
 end
