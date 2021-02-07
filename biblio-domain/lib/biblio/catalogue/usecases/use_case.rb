@@ -6,7 +6,7 @@ module Biblio
 
         def execute(request_model, presenter = nil); end
 
-        private
+        protected
 
         def request_model; end
 

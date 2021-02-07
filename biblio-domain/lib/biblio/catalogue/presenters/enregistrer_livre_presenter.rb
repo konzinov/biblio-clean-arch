@@ -18,6 +18,8 @@ module Biblio
           view_model.new(message, livre: livre, erreurs: erreurs)
         end
 
+        protected
+
         def view_model
           ViewModels::EnregistrerLivreViewModel
         end

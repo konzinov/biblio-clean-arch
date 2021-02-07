@@ -10,6 +10,12 @@ module Biblio
           view_model.new(resume_nb_livres(livres), livres)
         end
 
+        protected
+
+        def view_model
+          ViewModels::RechercherLivreViewModel
+        end
+
         private
 
         def resume_nb_livres(livres)
@@ -20,9 +26,6 @@ module Biblio
                                 end
         end
 
-        def view_model
-          ViewModels::RechercherLivreViewModel
-        end
       end
     end
   end

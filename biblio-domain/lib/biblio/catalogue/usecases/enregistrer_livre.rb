@@ -2,7 +2,7 @@ module Biblio
   module Catalogue
     module UseCases
       class EnregistrerLivre < UseCase
-        param :livre_repository
+        param :livre_repository, default: proc { Biblio::Db::Container.resolve(:livre_repository) }
 
         def execute(enregistrer_live_request, presenter)
           errors = validate_request_model(enregistrer_live_request)
@@ -11,21 +11,21 @@ module Biblio
             return presenter.present(response)
           end
 
-          livre = Biblio::Catalogue::Entities::Livre.new(**request_model.dry_initializer.attributes(enregistrer_live_request))
+          livre = Entities::Livre.new(**request_model.dry_initializer.attributes(enregistrer_live_request))
           save_errors = {}
           save_errors[:db] = 'repository error' unless livre_repository.save(livre)
           response = response_model.build(livre: livre, errors: save_errors)
           presenter.present(response)
         end
 
-        private
+        protected
 
         def request_model
-          Biblio::Catalogue::RequestModels::EnregistrerLivreRequest
+          RequestModels::EnregistrerLivreRequest
         end
 
         def response_model
-          Biblio::Catalogue::ResponseModels::EnregistrerLivreResponse
+          ResponseModels::EnregistrerLivreResponse
         end
 
         def validate_request_model(enregistrer_live_request)

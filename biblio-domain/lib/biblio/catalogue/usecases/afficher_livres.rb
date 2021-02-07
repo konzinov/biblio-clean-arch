@@ -2,7 +2,7 @@ module Biblio
   module Catalogue
     module UseCases
       class AfficherLivres < UseCase
-        param :livre_repository
+        param :livre_repository, default: proc { Biblio::Db::Container.resolve(:livre_repository) }
 
         def execute(presenter)
           livres = livre_repository.all
@@ -10,7 +10,7 @@ module Biblio
           presenter.present(response)
         end
 
-        private
+        protected
 
         def response_model
           Biblio::Catalogue::ResponseModels::AfficherLivresResponse

@@ -2,7 +2,7 @@ module Biblio
   module Catalogue
     module UseCases
       class RechercherLivre < UseCase
-        param :livre_repository
+        param :livre_repository, default: proc { Biblio::Db::Container.resolve(:livre_repository) }
 
         def execute(rechercher_livre_request, presenter)
           livres = []
@@ -11,14 +11,14 @@ module Biblio
           presenter.present(response)
         end
 
-        private
+        protected
 
         def request_model
-          Biblio::Catalogue::RequestModels::RechercherLivreRequest
+          RequestModels::RechercherLivreRequest
         end
 
         def response_model
-          Biblio::Catalogue::ResponseModels::RechercherLivreResponse
+          ResponseModels::RechercherLivreResponse
         end
       end
     end

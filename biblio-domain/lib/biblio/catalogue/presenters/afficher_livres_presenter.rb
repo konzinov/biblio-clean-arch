@@ -10,7 +10,7 @@ module Biblio
           view_model.new(resume_nb_livres(livres), livres)
         end
 
-        private
+        protected
 
         def view_model
           ViewModels::AfficherLivresViewModel
