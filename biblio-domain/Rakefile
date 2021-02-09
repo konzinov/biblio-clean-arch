@@ -13,22 +13,10 @@ task default: :test
 require 'rom/sql/rake_task'
 require 'rom'
 require 'rom-sql'
+require 'biblio/domain'
 
 namespace :db do
   task :setup do
-    # your ROM setup code
-    # Usually something like this:
-    opts = {
-      host: '127.0.0.1',
-      adapter: :sql,
-      username: 'postgres',
-      password: 'root',
-      encoding: 'UTF8',
-      migrator: {
-        path: 'lib/biblio/db/migrate'
-      }
-    }
-
-    ROM::SQL::RakeSupport.env = ROM.container(:sql, 'postgres://127.0.0.1:5432/bibliodb', opts)
+    ROM::SQL::RakeSupport.env = Biblio::Db::Config.migration_container
   end
 end
