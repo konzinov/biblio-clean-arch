@@ -8,7 +8,8 @@ module Biblio
         password: 'root',
         encoding: 'UTF8',
         scheme: 'postgres',
-        server_version: '12.0'
+        server_version: '12.0',
+        migrator: { path: 'lib/biblio/db/migrate' }
       }.freeze
 
       def init_rom!
@@ -19,17 +20,26 @@ module Biblio
         @rom ||= ROM.container(config)
       end
 
-      def config
+      def migration_container
+        ROM.container(config(migrate: true))
+      end
+
+      def config(migrate: false)
         return @config if @config
 
         puts "Database URL #{ENV['DATABASE_URL']}"
         @config ||= ROM::Configuration.new(:sql, ENV['DATABASE_URL'], OPTS)
-        @config.register_relation(Biblio::Db::Relations::Livres)
+        register_relations unless migrate
         @config
       end
 
+      def register_relations
+        @config.register_relation(Biblio::Db::Relations::Livres)
+        @config.register_relation(Biblio::Db::Relations::Auteurs)
+      end
+
       # Defines public methods callables on Module
-      module_function :config, :rom, :init_rom!
+      module_function :config, :register_relations, :rom, :migration_container, :init_rom!
     end
   end
 end

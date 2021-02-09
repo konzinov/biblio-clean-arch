@@ -1,15 +1,15 @@
 module Biblio
   module Catalogue
     module Adapters
-      class LivreInMemoryRepository < LivreRepository
+      class AuteurInMemoryRepository < AuteurRepository
         attr_accessor :livres, :id
 
         @@auteurs = {}
         @@id = 0
 
-        def save(livre)
+        def save(auteur)
           @@id += 1
-          @@auteurs[@@id] = livre
+          @@auteurs[@@id] = auteur
         end
 
         def all
@@ -20,8 +20,8 @@ module Biblio
           @@auteurs[id]
         end
 
-        def find_by_title(titre)
-          @@auteurs.select { |_, livre| livre.titre.include? titre }.values
+        def find_by_nom(nom)
+          @@auteurs.select { |_, auteur| auteur.nom.include? nom }.values
         end
 
         def clear!

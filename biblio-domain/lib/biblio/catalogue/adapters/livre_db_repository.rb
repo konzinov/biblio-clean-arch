@@ -7,7 +7,10 @@ module Biblio
         def save(livre)
           livre_relation = rom.relations[:livres]
           create_livre = livre_relation.command(:create)
-          create_livre.call(titre: livre.titre, auteur: livre.auteur, nb_pages: livre.nb_pages)
+          create_livre.call(titre: livre.titre,
+                            auteur: livre.auteur,
+                            nb_pages: livre.nb_pages,
+                            uuid: livre.uuid)
         end
 
         def all

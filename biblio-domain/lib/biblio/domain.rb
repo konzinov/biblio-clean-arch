@@ -1,5 +1,6 @@
 require 'dry-initializer'
 require 'dry-equalizer'
+require 'securerandom'
 
 require 'biblio/catalogue/catalogue'
 require 'biblio/db/db'
