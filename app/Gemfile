@@ -1,0 +1,16 @@
+source 'https://rubygems.org'
+
+gemspec
+
+gem 'domain', path: '../domain'
+
+gem 'minitest', '~> 5.0'
+gem 'rake', '~> 12.0'
+
+group :development do
+  gem 'rubocop', require: false
+end
+
+group :test do
+  gem 'infrastructure', path: '../infrastructure'
+end

@@ -1,0 +1,23 @@
+source 'https://rubygems.org'
+
+gemspec
+
+gem 'minitest', '~> 5.0'
+gem 'rake', '~> 12.0'
+
+gem 'domain', path: '../domain'
+
+gem 'dry-equalizer'
+gem 'dry-initializer'
+
+group :development do
+  gem 'rubocop', require: false
+end
+
+group :test do
+  gem 'database_cleaner-sequel'
+end
+
+gem 'pg'
+gem 'rom', '~> 5.2'
+gem 'rom-sql', '~> 3.2'
