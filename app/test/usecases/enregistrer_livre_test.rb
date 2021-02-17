@@ -9,10 +9,10 @@ class EnregistrerLivreTest < Minitest::Test
 
   def test_enregistrer_livre_success
     # Given
-    demande_creation_livre = UseCases::EnregistrerLivreRequest.new('Le Pagne noir',
-                                                                   'Bernard Dadié',
-                                                                   120,
-                                                                   Date.new(1955, 1, 1))
+    demande_creation_livre = UseCases::EnregistrerLivreRequest.new(titre: 'Le Pagne noir',
+                                                                   auteur: 'Bernard Dadié',
+                                                                   nb_pages: 120,
+                                                                   date_publication: Date.new(1955, 1, 1))
 
     presenter = Presenters::EnregistrerLivrePresenter.new
 
@@ -23,13 +23,19 @@ class EnregistrerLivreTest < Minitest::Test
     assert_instance_of ViewModels::EnregistrerLivreViewModel, enregistrer_livre_view_model
     assert_equal 'Livre enregistré avec succès', enregistrer_livre_view_model.message
     assert_empty enregistrer_livre_view_model.erreurs
-    assert_equal ViewModels::EnregistrerLivreViewModel::Livre.new(titre: 'Le Pagne noir', auteur: nil, nb_pages: nil, date_publication: nil),
+    assert_equal ViewModels::EnregistrerLivreViewModel::Livre.new(titre: 'Le Pagne noir',
+                                                                  auteur: nil,
+                                                                  nb_pages: nil,
+                                                                  date_publication: nil),
                  enregistrer_livre_view_model.livre
   end
 
   def test_enregistrer_livre_echec_validation
     # Given
-    demande_creation_livre = UseCases::EnregistrerLivreRequest.new(nil, nil, nil, nil)
+    demande_creation_livre = UseCases::EnregistrerLivreRequest.new(titre: nil,
+                                                                   auteur: nil,
+                                                                   nb_pages: nil,
+                                                                   date_publication: nil)
 
     presenter = Presenters::EnregistrerLivrePresenter.new
 
@@ -49,7 +55,10 @@ class EnregistrerLivreTest < Minitest::Test
       false
     end
 
-    enregistrer_livre_request = UseCases::EnregistrerLivreRequest.new('Le pagne Noir', 'Bernard Dadié', nil, nil)
+    enregistrer_livre_request = UseCases::EnregistrerLivreRequest.new(titre: 'Le pagne Noir',
+                                                                      auteur: 'Bernard Dadié',
+                                                                      nb_pages: nil,
+                                                                      date_publication: nil)
 
     Repositories::LivreRepository.stub :new, mock do
       @repo = Repositories::LivreRepository.new

@@ -1,9 +1,9 @@
 module UseCases
   class EnregistrerLivreRequest
     extend Dry::Initializer
-    param :titre
-    param :auteur
-    param :nb_pages
-    param :date_publication
+    option :titre
+    option :auteur
+    option :nb_pages
+    option :date_publication
   end
 end

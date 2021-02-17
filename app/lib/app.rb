@@ -1,3 +1,5 @@
+require 'dry-initializer'
+
 USECASES_FOLDER = "#{File.dirname(__FILE__)}/usecases".freeze
 base_files = "#{USECASES_FOLDER}/*.rb"
 responses = "#{USECASES_FOLDER}/**/*_response.rb"
