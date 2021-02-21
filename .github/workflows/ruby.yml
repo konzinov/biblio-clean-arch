@@ -9,13 +9,12 @@ name: Ruby
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, refacto-orga ]
   pull_request:
     branches: [ master ]
 
 jobs:
-  test:
-
+  domain:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,29 +27,74 @@ jobs:
           POSTGRES_PASSWORD: root
         ports:
           - 5432:5432
+    defaults:
+      run:
+        working-directory: domain
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby ${{ matrix.ruby }}
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
+      - uses: actions/checkout@v2
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Install dependencies
+        working-directory: domain
+        run: bundle install --jobs 4
+      - name: Lint
+        working-directory: domain
+        run: bundle exec rubocop
+      - name: Run tests
+        run: bundle exec rake test
 
-    # Domain Step
-    - name: Domain - Install dependencies
-      run: cd biblio-domain && bundle install
-    - name: Domain - Lint
-      run: cd biblio-domain && bundle exec rubocop
-    - name: Domain - Setup DB
-      run: PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
-    - name: Domain - Migrations
-      run: cd biblio-domain && DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
-    - name: Domain - Run tests
-      run: cd biblio-domain && DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake
 
-    # RoR app Step
-    - name: Rails App - Install dependencies
-      run: cd biblio-rails && bundle install && yarn install
-    - name: Rails App - Lint
-      run: cd biblio-rails && bundle exec rubocop
-    - name: Rails App - Run tests
-      run: cd biblio-rails && RAILS_ENV=test DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake
+          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;' |
+          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
+          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake
+
+  infrastructure:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: [ '2.6', '2.7' ]
+
+    services:
+      postgres:
+        image: postgres:12.0
+        env:
+          POSTGRES_PASSWORD: root
+        ports:
+          - 5432:5432
+    defaults:
+      run:
+        working-directory: infrastructure
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Install dependencies
+        working-directory: domain
+        run: bundle install --jobs 4
+      - name: Lint
+        working-directory: domain
+        run: bundle exec rubocop
+      - name: Run tests
+        run: bundle exec rake test
+
+
+#          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;' |
+#          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
+#          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake
+
+
+
+
+
+
+
+#      - name: Rails App - Install dependencies
+#        run: cd biblio-rails && bundle install && yarn install
+#      - name: Rails App - Lint
+#        run: cd biblio-rails && bundle exec rubocop
+#      - name: Rails App - Run tests
+#        run: cd biblio-rails && RAILS_ENV=test DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake
