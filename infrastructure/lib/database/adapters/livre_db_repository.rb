@@ -6,11 +6,12 @@ module Adapters
       livre_relation = rom.relations[:livres]
       create_livre = livre_relation.command(:create)
       create_livre.call(
-                        titre: livre.titre,
-                        auteur: livre.auteur,
-                        nb_pages: livre.nb_pages,
-                        date_publication: livre.date_publication,
-                        uuid: livre.uuid)
+        titre: livre.titre,
+        auteur: livre.auteur,
+        nb_pages: livre.nb_pages,
+        date_publication: livre.date_publication,
+        uuid: livre.uuid
+      )
     end
 
     def all

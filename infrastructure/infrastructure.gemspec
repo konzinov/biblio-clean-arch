@@ -8,9 +8,7 @@ Gem::Specification.new do |spec|
   spec.description = 'Couche Infrastructure'
   spec.homepage = 'https://github.com/konzinov/biblio-clean-arch'
   spec.license = 'MIT'
-  spec.required_ruby_version = Gem::Specification.new do |s|
-    s.required_ruby_version = ['>= 2.6.0', '~> 2.7.0']
-  end
+  spec.required_ruby_version = ['>= 2.6.0', '<= 2.7.2']
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/konzinov/biblio-clean-arch'
 
@@ -23,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'pg'
   spec.add_dependency 'rom'
   spec.add_dependency 'rom-sql'
-  spec.add_dependency 'pg'
 end

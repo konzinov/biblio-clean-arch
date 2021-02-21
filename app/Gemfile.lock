@@ -1,0 +1,113 @@
+PATH
+  remote: ../domain
+  specs:
+    domain (1.0.0)
+
+PATH
+  remote: ../infrastructure
+  specs:
+    infrastructure (1.0.0)
+      pg
+      rom
+      rom-sql
+
+PATH
+  remote: .
+  specs:
+    app (1.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    concurrent-ruby (1.1.8)
+    dry-configurable (0.12.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.5, >= 0.5.0)
+    dry-container (0.7.2)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.1, >= 0.1.3)
+    dry-core (0.5.0)
+      concurrent-ruby (~> 1.0)
+    dry-equalizer (0.3.0)
+    dry-inflector (0.2.0)
+    dry-initializer (3.0.4)
+    dry-logic (1.1.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.5, >= 0.5)
+    dry-struct (1.4.0)
+      dry-core (~> 0.5, >= 0.5)
+      dry-types (~> 1.5)
+      ice_nine (~> 0.11)
+    dry-types (1.5.0)
+      concurrent-ruby (~> 1.0)
+      dry-container (~> 0.3)
+      dry-core (~> 0.5, >= 0.5)
+      dry-inflector (~> 0.1, >= 0.1.2)
+      dry-logic (~> 1.0, >= 1.0.2)
+    ice_nine (0.11.2)
+    minitest (5.14.3)
+    parallel (1.20.1)
+    parser (3.0.0.0)
+      ast (~> 2.4.1)
+    pg (1.2.3)
+    rainbow (3.0.0)
+    rake (12.3.3)
+    regexp_parser (2.0.3)
+    rexml (3.2.4)
+    rom (5.2.6)
+      rom-changeset (~> 5.2, >= 5.2.3)
+      rom-core (~> 5.2, >= 5.2.5)
+      rom-repository (~> 5.2, >= 5.2.2)
+    rom-changeset (5.2.3)
+      dry-core (~> 0.4)
+      rom-core (~> 5.2)
+      transproc (~> 1.0, >= 1.1.0)
+    rom-core (5.2.5)
+      concurrent-ruby (~> 1.1)
+      dry-container (~> 0.7)
+      dry-core (~> 0.4)
+      dry-equalizer (~> 0.2)
+      dry-inflector (~> 0.1)
+      dry-initializer (~> 3.0, >= 3.0.1)
+      dry-struct (~> 1.0)
+      dry-types (~> 1.0)
+      transproc (~> 1.0, >= 1.1.0)
+    rom-repository (5.2.2)
+      dry-core (~> 0.4)
+      dry-initializer (~> 3.0, >= 3.0.1)
+      rom-core (~> 5.2, >= 5.2.2)
+    rom-sql (3.3.2)
+      dry-core (~> 0.5, >= 0.5)
+      dry-types (~> 1.0)
+      rom (~> 5.2, >= 5.2.1)
+      sequel (>= 4.49)
+    rubocop (1.9.1)
+      parallel (~> 1.10)
+      parser (>= 3.0.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml
+      rubocop-ast (>= 1.2.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.4.1)
+      parser (>= 2.7.1.5)
+    ruby-progressbar (1.11.0)
+    sequel (5.41.0)
+    transproc (1.1.1)
+    unicode-display_width (2.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  app!
+  domain!
+  infrastructure!
+  minitest (~> 5.0)
+  rake (~> 12.0)
+  rubocop
+
+BUNDLED WITH
+   2.1.4
