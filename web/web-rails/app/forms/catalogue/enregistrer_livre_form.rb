@@ -1,5 +1,6 @@
 module Catalogue
   class EnregistrerLivreForm
+    include ActiveModel::Model
     extend Dry::Initializer
 
     option :titre, optional: true
@@ -8,7 +9,6 @@ module Catalogue
     option :date_publication, optional: true
 
     def enregistrer_livre_request
-      puts self.class.dry_initializer.attributes(self)
       UseCases::EnregistrerLivreRequest.new(**self.class.dry_initializer.attributes(self))
     end
   end

@@ -36,17 +36,25 @@ class LivresControllerTest < ActionDispatch::IntegrationTest
     assert_select 'h1', 'Livre enregistré avec succès'
   end
 
-  test 'should show missing title when creating book' do
-    post '/catalogue/livres', params: { catalogue_enregistrer_livre_form: { auteur: 'Sembene Ousmane' } }
+  test 'should present new livre form' do
+    get '/catalogue/livres/new'
+    assert_response :ok
+  end
 
-    assert_response 400
+  test 'should show missing title when creating book' do
+    post '/catalogue/livres', params: { catalogue_enregistrer_livre_form: { titre: nil,
+                                                                            auteur: 'Sembene Ousmane',
+                                                                            nb_pages: 150,
+                                                                            date_publication: Date.new(1955, 1, 1) } }
+
+    assert_response :bad_request
     assert_instance_of ViewModels::EnregistrerLivreViewModel, assigns(:view_model)
     assert_select 'h1', "Echec de l'enregistrement du livre"
     assert_select 'ul', /Titre absent/
   end
 
   test 'should not find any book with missing title' do
-    get '/catalogue/livres/search', params: { titre: ' ' }
+    get '/catalogue/livres/search', params: { titre: nil }
 
     assert_response :missing
     assert_instance_of ViewModels::RechercherLivreViewModel, assigns(:view_model)

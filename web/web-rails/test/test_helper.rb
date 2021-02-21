@@ -32,4 +32,3 @@ if Database::Container.with_database?
     end
   end
 end
-

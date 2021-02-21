@@ -5,7 +5,8 @@ module Catalogue
     end
 
     def enregister_livre_params
-      @controller.params.require(:catalogue_enregistrer_livre_form).permit(:titre, :auteur, :nb_pages, :date_publication).to_h.symbolize_keys
+      @controller.params.require(:catalogue_enregistrer_livre_form).permit(:titre, :auteur, :nb_pages,
+                                                                           :date_publication).to_h.symbolize_keys
     end
 
     def rechercher_livre_params

@@ -22,7 +22,6 @@ module Catalogue
 
     def enregistrer_livre
       form = Catalogue::EnregistrerLivreForm.new(@entry_point_port.enregister_livre_params)
-      puts form.date_publication
 
       enregistrer_livre_request = form.enregistrer_livre_request
 

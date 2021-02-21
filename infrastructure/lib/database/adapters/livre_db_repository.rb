@@ -5,7 +5,8 @@ module Adapters
     def save(livre)
       livre_relation = rom.relations[:livres]
       create_livre = livre_relation.command(:create)
-      create_livre.call(titre: livre.titre,
+      create_livre.call(
+                        titre: livre.titre,
                         auteur: livre.auteur,
                         nb_pages: livre.nb_pages,
                         date_publication: livre.date_publication,
@@ -21,7 +22,7 @@ module Adapters
     end
 
     def find(id)
-      rom.relations[:livres].by_pk(id).map_to(Entities::Livre).to_a
+      rom.relations[:livres].by_pk(id).map_to(Entities::Livre).first
     end
 
     def find_by_title(titre)

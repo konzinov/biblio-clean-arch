@@ -1,5 +1,15 @@
 = form_for @form, url: catalogue_livres_path do |f|
-  = f.text_field :titre
-  = f.text_field :auteur
-  = f.number_field :nb_pages
+  div
+    = f.label :titre
+    = f.text_field :titre
+  div
+    = f.label :auteur
+    = f.text_field :auteur
+  div
+    = f.label :nb_pages
+    = f.number_field :nb_pages
+  div
+    = f.label :date_publication
+    = f.date_field :date_publication
+
   = f.submit "Create"
