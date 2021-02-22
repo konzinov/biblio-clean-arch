@@ -19,14 +19,6 @@ jobs:
     strategy:
       matrix:
         ruby: [ '2.6', '2.7' ]
-
-    services:
-      postgres:
-        image: postgres:12.0
-        env:
-          POSTGRES_PASSWORD: root
-        ports:
-          - 5432:5432
     defaults:
       run:
         working-directory: domain
@@ -48,7 +40,6 @@ jobs:
     strategy:
       matrix:
         ruby: [ '2.6', '2.7' ]
-
     services:
       postgres:
         image: postgres:12.0
@@ -72,25 +63,16 @@ jobs:
       - name: Run tests
         run: |
           bundle exec rake test
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
           PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
           DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
           DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake test
-
 
   app:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby: [ '2.6', '2.7' ]
-
-    services:
-      postgres:
-        image: postgres:12.0
-        env:
-          POSTGRES_PASSWORD: root
-        ports:
-          - 5432:5432
     defaults:
       run:
         working-directory: app
@@ -106,3 +88,24 @@ jobs:
         run: bundle exec rubocop
       - name: Run tests
         run: bundle exec rake test
+
+  web-rails:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: [ '2.6', '2.7' ]
+    defaults:
+      run:
+        working-directory: web/web-rails
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: Install dependencies
+        run: bundle install --jobs 4
+      - name: Lint
+        run: bundle exec rubocop
+      - name: Run tests
+        run: RAILS_ENV=test bundle exec rake test

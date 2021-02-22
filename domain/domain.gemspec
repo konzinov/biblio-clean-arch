@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Domaine Metier'
   spec.homepage      = 'https://github.com/konzinov/biblio-clean-arch'
   spec.license       = 'MIT'
-  spec.required_ruby_version = ['>= 2.6.0', '<= 2.7.2']
+  spec.required_ruby_version = '~> 2.6'
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/konzinov/biblio-clean-arch'
 
