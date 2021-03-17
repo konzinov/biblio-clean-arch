@@ -1,7 +1,5 @@
 module Catalogue
   class LivresController < ApplicationController
-    # include Biblio::Catalogue
-
     def initialize
       super
       @rails_adapter = Catalogue::RailsControllerAdapter.new(self)

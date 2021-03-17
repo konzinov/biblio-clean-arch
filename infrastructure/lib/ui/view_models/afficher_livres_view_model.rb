@@ -3,6 +3,7 @@ module ViewModels
     extend Dry::Initializer
     param :resume_nb_livres
     param :livres, default: proc { [] }
+    option :message, optional: true
 
     class Livre
       extend Dry::Initializer

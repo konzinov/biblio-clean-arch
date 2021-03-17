@@ -8,6 +8,8 @@
 name: Ruby Integration
 
 on:
+  push:
+    branches: [ master ]
   schedule:
     - cron: 0 23 * * *
 
@@ -35,14 +37,15 @@ jobs:
 
   infrastructure:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://127.0.0.1:5432/bibliodb
+      POSTGRES_PASSWORD: root
     strategy:
       matrix:
         ruby: [ '2.6', '2.7' ]
     services:
       postgres:
         image: postgres:12.0
-        env:
-          POSTGRES_PASSWORD: root
         ports:
           - 5432:5432
     defaults:
@@ -60,23 +63,23 @@ jobs:
         run: bundle exec rubocop
       - name: Run tests
         run: |
+          psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+          psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+          bundle exec rake db:migrate
           bundle exec rake test
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
-          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake test
 
 
   app:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://127.0.0.1:5432/bibliodb
+      POSTGRES_PASSWORD: root
     strategy:
       matrix:
         ruby: [ '2.6', '2.7' ]
     services:
       postgres:
         image: postgres:12.0
-        env:
-          POSTGRES_PASSWORD: root
         ports:
           - 5432:5432
     defaults:
@@ -94,27 +97,26 @@ jobs:
         run: bundle exec rubocop
       - name: Run tests
         run: |
+          psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+          psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+          bundle install --jobs 4
+          bundle exec rake db:migrate
           bundle exec rake test
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
-          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake test
 
   web-rails:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://127.0.0.1:5432/bibliodb
+      POSTGRES_PASSWORD: root
+      RAILS_ENV: test
     strategy:
       matrix:
         ruby: [ '2.6', '2.7' ]
     services:
       postgres:
         image: postgres:12.0
-        env:
-          POSTGRES_PASSWORD: root
         ports:
           - 5432:5432
-    defaults:
-      run:
-        working-directory: web/web-rails
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby ${{ matrix.ruby }}
@@ -127,10 +129,15 @@ jobs:
           yarn install
       - name: Lint
         run: bundle exec rubocop
-      - name: Run tests
+      - name: Setup database
+        working-directory: app
         run: |
+          psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+          psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+          bundle install --jobs 4
+          bundle exec rake db:migrate
+      - name: Run tests
+        working-directory: web/web-rails
+        run: |
+          bundle install --jobs 4
           bundle exec rake test
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
-          PGPASSWORD=root psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake db:migrate
-          DATABASE_URL=postgres://127.0.0.1:5432/bibliodb bundle exec rake test
