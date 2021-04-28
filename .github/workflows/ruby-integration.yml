@@ -91,16 +91,19 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+      - name: Setup database
+        working-directory: infrastructure
+        run: |
+          psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
+          psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+          bundle install --jobs 4
+          bundle exec rake db:migrate
       - name: Install dependencies
         run: bundle install --jobs 4
       - name: Lint
         run: bundle exec rubocop
       - name: Run tests
         run: |
-          psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
-          psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-          bundle install --jobs 4
-          bundle exec rake db:migrate
           bundle exec rake test
 
   web-rails:
@@ -123,21 +126,22 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - name: Install dependencies
-        run: |
-          bundle install --jobs 4
-          yarn install
-      - name: Lint
-        run: bundle exec rubocop
       - name: Setup database
-        working-directory: app
+        working-directory: infrastructure
         run: |
           psql -h 127.0.0.1 -U postgres -c '\x' -c 'create database bibliodb;'
           psql -h 127.0.0.1 -U postgres -c '\x' -d 'bibliodb' -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
           bundle install --jobs 4
           bundle exec rake db:migrate
-      - name: Run tests
+      - name: Install dependencies
         working-directory: web/web-rails
         run: |
           bundle install --jobs 4
+          yarn install
+      - name: Lint
+        working-directory: web/web-rails
+        run: bundle exec rubocop
+      - name: Run tests
+        working-directory: web/web-rails
+        run: |
           bundle exec rake test
